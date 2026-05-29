@@ -18,6 +18,9 @@ const SYSTEM_PROMPT = `
 - "人物定妆" 或 "定妆生成" -> templateId: "MAKEUP_SYSTEM"
 - "视觉一致性" 或 "控制中枢" -> templateId: "VISUAL_CONSISTENCY"
 - "分镜" 或 "原画生成" -> templateId: "STORYBOARD_ENGINE"
+- "动态导演" 或 "声景工程" -> templateId: "DYNAMIC_DIRECTOR"
+- "动作可行性评估" 或 "拆招中枢" -> templateId: "ACTION_EVALUATION"
+- "全局视觉" 或 "调色控制台" 或 "DI 调色" -> templateId: "COLOR_GRADING"
 
 你需要返回如下结构的 JSON：
 {

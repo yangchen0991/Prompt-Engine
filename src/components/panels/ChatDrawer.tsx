@@ -12,7 +12,10 @@ import {
   CHARACTER_CASTING_PROMPT,
   MAKEUP_SYSTEM_PROMPT,
   VISUAL_CONSISTENCY_PROMPT,
-  STORYBOARD_ENGINE_PROMPT
+  STORYBOARD_ENGINE_PROMPT,
+  DYNAMIC_DIRECTOR_PROMPT,
+  ACTION_EVALUATION_PROMPT,
+  COLOR_GRADING_PROMPT
 } from '@/lib/agent-prompts';
 
 export default function ChatDrawer() {
@@ -106,6 +109,9 @@ export default function ChatDrawer() {
           else if (n.data?.templateId === 'MAKEUP_SYSTEM') text = MAKEUP_SYSTEM_PROMPT;
           else if (n.data?.templateId === 'VISUAL_CONSISTENCY') text = VISUAL_CONSISTENCY_PROMPT;
           else if (n.data?.templateId === 'STORYBOARD_ENGINE') text = STORYBOARD_ENGINE_PROMPT;
+          else if (n.data?.templateId === 'DYNAMIC_DIRECTOR') text = DYNAMIC_DIRECTOR_PROMPT;
+          else if (n.data?.templateId === 'ACTION_EVALUATION') text = ACTION_EVALUATION_PROMPT;
+          else if (n.data?.templateId === 'COLOR_GRADING') text = COLOR_GRADING_PROMPT;
           
           defaultData = { text };
         } else if (n.type === 'inputImageNode') {
