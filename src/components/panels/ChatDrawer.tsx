@@ -329,7 +329,7 @@ export default function ChatDrawer() {
                       </div>
                     )}
                   </div>
-                  <div className={`max-w-[200px] rounded-sm px-3 py-2 text-[12px] leading-relaxed ${
+                  <div className={`max-w-[200px] whitespace-pre-wrap rounded-sm px-3 py-2 text-[12px] leading-relaxed ${
                     msg.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-secondary text-secondary-foreground'
                   }`}>
                     {msg.content}

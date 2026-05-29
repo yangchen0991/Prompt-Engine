@@ -49,6 +49,7 @@ const SYSTEM_PROMPT = `
 
 非常重要：
 - X 和 Y 坐标请尽量合理排布（一般从左向右发展，X 每次增加约 400，Y 可以微调）。
+- 即使用户的需求较为模糊，你也必须推测其意图，生成至少一个起点的 textNode 以及相关的生成节点（如 genVideoNode 或 genImageNode），绝对不能返回空的 nodes 数组。
 - 你必须并且只能返回合法的 JSON 字符串，绝对不要输出任何引导语、解释性文字或者 Markdown 语法（如 \`\`\`json）。直接从 { 开始，以 } 结束。
 `;
 
@@ -70,6 +71,9 @@ export async function parseWorkflowFromLLM(apiKey: string, model: string, userQu
       rawStr = codeBlockMatch[1];
     }
     const json = JSON.parse(rawStr.trim());
+    if (!json.nodes || !Array.isArray(json.nodes) || json.nodes.length === 0) {
+      throw new Error('LLM 未返回有效的节点数组。返回内容：' + JSON.stringify(json));
+    }
     return json;
   } catch (error) {
     console.error('解析画板结构 JSON 失败:', error, '\n原始返回:', response);

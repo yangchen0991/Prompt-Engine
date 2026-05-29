@@ -50,8 +50,9 @@ export default function FlowCanvas() {
   React.useEffect(() => {
     if (reactFlowInstance && nodes.length > 0) {
       setTimeout(() => {
+        // 请求两次 fitView 以确保 DOM 已完全渲染
         reactFlowInstance.fitView({ padding: 0.2, duration: 800 });
-      }, 100);
+      }, 300);
     }
   }, [nodes.length, reactFlowInstance]);
 
