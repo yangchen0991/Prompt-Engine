@@ -46,6 +46,15 @@ export default function FlowCanvas() {
     setContextMenu({ x: e.clientX, y: e.clientY, flowX: pos.x, flowY: pos.y });
   }, [reactFlowInstance]);
 
+  // 当外部加载新画板（节点数量从0变为多或者发生大规模变化时），自动适配视图
+  React.useEffect(() => {
+    if (reactFlowInstance && nodes.length > 0) {
+      setTimeout(() => {
+        reactFlowInstance.fitView({ padding: 0.2, duration: 800 });
+      }, 100);
+    }
+  }, [nodes.length, reactFlowInstance]);
+
   return (
     <div ref={reactFlowWrapper} className="h-full w-full">
       <ReactFlow

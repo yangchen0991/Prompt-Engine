@@ -45,20 +45,24 @@ export default function ChatDrawer() {
     if (!activeSessionId || !activeSession) {
       useChatStore.getState().createSession('workflow');
       
-      // 重新获取一下当前 activeSession
       const storeState = useChatStore.getState();
       const currentActiveSession = storeState.getActiveSession();
-      
-      if (currentActiveSession?.mode === 'workflow') {
+      if (currentActiveSession) {
         await handleGenerateWorkflow(content, currentActiveSession.id);
-      } else {
-        await storeState.sendMessage(content);
       }
       return;
     }
     
-    // 如果是画板生成模式
-    if (activeSession.mode === 'workflow') {
+    // 智能识别画板生成意图：即使用户在"普通对话"中，如果提到了生成节点，自动切换至生成逻辑
+    let isWorkflowMode = activeSession.mode === 'workflow';
+    const workflowKeywords = ['生成', '画板', '节点', '工作流', '创世架构师', '视觉一致性', '原画生成', '声景', '调色', '拆招', '连线', '引擎'];
+    const hasWorkflowIntent = workflowKeywords.some(kw => content.includes(kw));
+
+    if (!isWorkflowMode && hasWorkflowIntent) {
+      isWorkflowMode = true;
+    }
+    
+    if (isWorkflowMode) {
       await handleGenerateWorkflow(content);
       return;
     }
@@ -181,7 +185,7 @@ export default function ChatDrawer() {
                   { 
                     id: `msg-${Date.now()}`, 
                     role: 'assistant', 
-                    content: `🎉 画板生成完毕！分析需求如下：\n\n${workflowData.summary}`, 
+                    content: `🎉 画板生成完毕！分析需求如下：\n\n${workflowData.summary}\n\n**您现在可以关闭对话抽屉查看生成的画板。**`, 
                     createdAt: Date.now() 
                   }
                 ] 
@@ -191,6 +195,9 @@ export default function ChatDrawer() {
         isStreaming: false
       }));
       toast.success('画板已在后台生成并加载');
+      setTimeout(() => {
+        setChatDrawerOpen(false);
+      }, 1500);
     } catch (error: any) {
       useChatStore.setState(s => ({
         sessions: s.sessions.map(sess => 

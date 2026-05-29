@@ -58,8 +58,7 @@ export async function parseWorkflowFromLLM(apiKey: string, model: string, userQu
   const response = await adapter.chat({
     model: model || 'ernie-4.5-turbo-32k',
     messages: [
-      { role: 'system', content: SYSTEM_PROMPT },
-      { role: 'user', content: userQuery }
+      { role: 'user', content: `${SYSTEM_PROMPT}\n\n我的具体需求是：\n${userQuery}` }
     ],
   });
 
