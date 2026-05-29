@@ -68,8 +68,12 @@ const FEATURES = [
 ];
 
 export default function Onboarding() {
-  const { onboardingCompleted, completeOnboarding, setSelectedNodeId } = useUIStore();
+  const { completeOnboarding, setSelectedNodeId } = useUIStore();
   const { setNodes, setEdges } = useFlowStore();
+
+  const [show, setShow] = React.useState(() => {
+    return localStorage.getItem('onboarding_completed') !== 'true';
+  });
 
   // 启动时检测独立 localStorage key
   useEffect(() => {
@@ -79,18 +83,20 @@ export default function Onboarding() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (onboardingCompleted) return null;
+  if (!show) return null;
 
   const handleSelectTemplate = (template: Template) => {
     setNodes(template.nodes as Node[]);
     setEdges(template.edges);
     completeOnboarding();
+    setShow(false);
     const firstImg = template.nodes.find(n => n.type === 'genImageNode');
     if (firstImg?.id) setSelectedNodeId(firstImg.id);
   };
 
   const handleSkip = () => {
     completeOnboarding();
+    setShow(false);
   };
 
   return (
@@ -102,9 +108,9 @@ export default function Onboarding() {
             <div className="flex h-9 w-9 items-center justify-center rounded-sm border border-primary/30 bg-primary/10">
               <Sparkles size={18} className="text-primary" />
             </div>
-            <h1 className="text-2xl font-bold gradient-text tracking-tight">绘词引擎 V2</h1>
+            <h1 className="text-2xl font-bold gradient-text tracking-tight">提示词，即是画笔</h1>
           </div>
-          <p className="text-sm text-muted-foreground">可视化 AI 工作流创作平台</p>
+          <p className="text-sm text-muted-foreground">绘词引擎 V2 · 可视化 AI 工作流创作平台</p>
 
           {/* 特性列表 */}
           <div className="mt-4 flex flex-col items-center gap-1.5 sm:flex-row sm:justify-center sm:gap-4">
