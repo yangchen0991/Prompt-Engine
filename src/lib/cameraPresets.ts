@@ -1,68 +1,6 @@
 import type { CameraParams, CameraPreset } from '@/types/index';
 import { LENS_DATABASE } from '@/lib/cameraLenses';
 
-// ===================== 场景类型 =====================
-export type SceneType = 'portrait' | 'landscape' | 'product' | 'artistic';
-
-export interface SceneConfig {
-  id: SceneType;
-  label: string;
-  desc: string;
-  /** 该场景推荐的预设 ID 列表 */
-  presetIds: string[];
-  /** 推荐焦距（供 UI 高亮） */
-  recommendedFocalLengths: string[];
-  /** 推荐光圈 */
-  recommendedApertures: string[];
-  /** 推荐构图 */
-  recommendedCompositions: string[];
-  /** 推荐光照 */
-  recommendedLightings: string[];
-}
-
-export const SCENE_CONFIGS: SceneConfig[] = [
-  {
-    id: 'portrait',
-    label: '写实人像',
-    desc: '人像虚化 · 浅景深',
-    presetIds: ['portrait-natural', 'portrait-studio', 'portrait-outdoor', 'portrait-retro'],
-    recommendedFocalLengths: ['85mm', '105mm', '135mm'],
-    recommendedApertures: ['f/1.4', 'f/1.8', 'f/2.0', 'f/2.8'],
-    recommendedCompositions: ['三分法', '中心对称', '眼神引导'],
-    recommendedLightings: ['自然柔光', '环形灯', '伦勃朗光', '蝴蝶光'],
-  },
-  {
-    id: 'landscape',
-    label: '风景建筑',
-    desc: '超广角 · 深景深',
-    presetIds: ['landscape-golden', 'landscape-blue', 'landscape-architecture', 'landscape-astro'],
-    recommendedFocalLengths: ['14mm', '24mm', '35mm'],
-    recommendedApertures: ['f/8', 'f/11', 'f/16'],
-    recommendedCompositions: ['三分法', '引导线', '框架式', '对角线'],
-    recommendedLightings: ['黄金时段', '蓝调时段', '正午阳光', '阴天漫射'],
-  },
-  {
-    id: 'product',
-    label: '产品静物',
-    desc: '棚拍 · 精准控光',
-    presetIds: ['product-white', 'product-dark', 'product-lifestyle', 'product-macro'],
-    recommendedFocalLengths: ['50mm', '90mm', '105mm 微距'],
-    recommendedApertures: ['f/4.0', 'f/5.6', 'f/8'],
-    recommendedCompositions: ['中心对称', '平铺俯拍', '三分法', '对角线'],
-    recommendedLightings: ['白背景棚拍', '柔光箱', '侧光', '背光轮廓'],
-  },
-  {
-    id: 'artistic',
-    label: '艺术创作',
-    desc: '戏剧光 · 实验构图',
-    presetIds: ['artistic-noir', 'artistic-vibrant', 'artistic-dreamlike', 'artistic-minimal'],
-    recommendedFocalLengths: ['14mm', '35mm', '50mm', '135mm'],
-    recommendedApertures: ['f/1.4', 'f/2.0', 'f/8'],
-    recommendedCompositions: ['框架式', '引导线', '黄金螺旋', '负空间'],
-    recommendedLightings: ['戏剧性侧光', '逆光剪影', '霓虹混合光', '自然逆光'],
-  },
-];
-
 // ===================== 全局选项集合 =====================
 export const FOCAL_LENGTHS = [
   '8mm', '14mm', '20mm', '24mm', '28mm', '35mm',
@@ -464,180 +402,93 @@ const defaultExtra = {
   colorTone: '中性自然',
 };
 
+
 export const BUILT_IN_PRESETS: CameraPreset[] = [
-  // ── 写实人像 ──────────────────────────────────────
   {
-    id: 'portrait-natural',
-    name: '自然人像',
+    id: 'preset-cinematic',
+    name: '电影感',
     params: {
-      device: 'Hasselblad X2D', focalLength: '85mm', aperture: 'f/2.0',
-      iso: 'ISO 200', shutterSpeed: '1/250s', lensType: '人像定焦', lensId: '',
-      movement: '固定镜头', shotType: '近景',
-      composition: '三分法', lighting: '自然柔光', cameraAngle: '平视', colorTone: '中性自然',
+      device: 'ARRI Alexa 35', focalLength: '35mm', aperture: 'f/2.0',
+      iso: 'ISO 800', shutterSpeed: '1/60s', lensType: '电影镜头', lensId: '',
+      movement: '推镜头', shotType: '中景',
+      composition: '三分法', lighting: '戏剧性侧光', cameraAngle: '平视', colorTone: '青橙电影调',
     },
   },
   {
-    id: 'portrait-studio',
-    name: '棚拍人像',
-    params: {
-      device: 'Canon EOS R5', focalLength: '105mm', aperture: 'f/2.8',
-      iso: 'ISO 100', shutterSpeed: '1/125s', lensType: '人像定焦', lensId: '',
-      movement: '固定镜头', shotType: '近景',
-      composition: '中心对称', lighting: '蝴蝶光', cameraAngle: '平视', colorTone: '暖调金黄',
-    },
-  },
-  {
-    id: 'portrait-outdoor',
-    name: '户外逆光',
-    params: {
-      device: 'Sony A7 IV', focalLength: '135mm', aperture: 'f/1.8',
-      iso: 'ISO 400', shutterSpeed: '1/500s', lensType: '人像定焦', lensId: '',
-      movement: '固定镜头', shotType: '中近景',
-      composition: '眼神引导', lighting: '自然逆光', cameraAngle: '俯拍 15°', colorTone: '暖调金黄',
-    },
-  },
-  {
-    id: 'portrait-retro',
-    name: '复古胶片',
+    id: 'preset-retro',
+    name: '复古',
     params: {
       device: 'Leica M6', focalLength: '50mm', aperture: 'f/2.0',
-      iso: 'ISO 800', shutterSpeed: '1/60s', lensType: '标准镜头', lensId: '',
+      iso: 'ISO 400', shutterSpeed: '1/60s', lensType: '标准镜头', lensId: '',
       movement: '手持', shotType: '中近景',
-      composition: '三分法', lighting: '自然光', cameraAngle: '平视', colorTone: '胶片褪色',
+      composition: '中心对称', lighting: '自然光', cameraAngle: '平视', colorTone: '胶片褪色',
     },
   },
-  // ── 风景建筑 ──────────────────────────────────────
   {
-    id: 'landscape-golden',
-    name: '黄金时段',
+    id: 'preset-cyberpunk',
+    name: '赛博朋克',
     params: {
-      device: 'Nikon Z9', focalLength: '24mm', aperture: 'f/11',
-      iso: 'ISO 100', shutterSpeed: '1/60s', lensType: '超广角', lensId: '',
+      device: 'RED V-RAPTOR 8K VV', focalLength: '24mm', aperture: 'f/1.4',
+      iso: 'ISO 1600', shutterSpeed: '1/125s', lensType: '广角镜头', lensId: '',
+      movement: '手持', shotType: '全景',
+      composition: '对角线', lighting: '霓虹混合光', cameraAngle: '仰拍 15°', colorTone: '高饱和鲜艳',
+    },
+  },
+  {
+    id: 'preset-documentary',
+    name: '纪实',
+    params: {
+      device: 'Sony A7 IV', focalLength: '35mm', aperture: 'f/2.8',
+      iso: 'ISO 800', shutterSpeed: '1/125s', lensType: '标准镜头', lensId: '',
+      movement: '跟随', shotType: '中景',
+      composition: '三分法', lighting: '自然柔光', cameraAngle: '平视', colorTone: '高对比黑白',
+    },
+  },
+  {
+    id: 'preset-fresh',
+    name: '清新',
+    params: {
+      device: 'Fujifilm X-T5', focalLength: '50mm', aperture: 'f/2.0',
+      iso: 'ISO 200', shutterSpeed: '1/250s', lensType: '标准镜头', lensId: '',
+      movement: '固定镜头', shotType: '近景',
+      composition: '三分法', lighting: '正午阳光', cameraAngle: '俯拍 15°', colorTone: '低饱和莫兰迪',
+    },
+  },
+  {
+    id: 'preset-portrait',
+    name: '人像',
+    params: {
+      device: 'Hasselblad X2D 100C', focalLength: '85mm', aperture: 'f/1.8',
+      iso: 'ISO 100', shutterSpeed: '1/125s', lensType: '人像定焦', lensId: '',
+      movement: '固定镜头', shotType: '近景',
+      composition: '眼神引导', lighting: '伦勃朗光', cameraAngle: '平视', colorTone: '暖调金黄',
+    },
+  },
+  {
+    id: 'preset-landscape',
+    name: '风光',
+    params: {
+      device: 'Nikon Z9', focalLength: '14mm', aperture: 'f/8',
+      iso: 'ISO 64', shutterSpeed: '1/60s', lensType: '超广角', lensId: '',
       movement: '固定镜头', shotType: '远景',
-      composition: '三分法', lighting: '黄金时段', cameraAngle: '平视', colorTone: '暖调金黄',
+      composition: '引导线', lighting: '黄金时段', cameraAngle: '平视', colorTone: '中性自然',
     },
   },
   {
-    id: 'landscape-blue',
-    name: '蓝调时段',
+    id: 'preset-macro',
+    name: '微距',
     params: {
-      device: 'Sony A7R V', focalLength: '14mm', aperture: 'f/8',
-      iso: 'ISO 200', shutterSpeed: '1/30s', lensType: '超广角', lensId: '',
-      movement: '固定镜头', shotType: '全景',
-      composition: '引导线', lighting: '蓝调时段', cameraAngle: '平视', colorTone: '冷调蓝银',
-    },
-  },
-  {
-    id: 'landscape-architecture',
-    name: '建筑几何',
-    params: {
-      device: 'Phase One IQ4', focalLength: '35mm', aperture: 'f/11',
-      iso: 'ISO 64', shutterSpeed: '1/125s', lensType: '移轴镜头', lensId: '',
-      movement: '固定镜头', shotType: '全景',
-      composition: '框架式', lighting: '正午阳光', cameraAngle: '仰拍 15°', colorTone: '中性自然',
-    },
-  },
-  {
-    id: 'landscape-astro',
-    name: '星空延时',
-    params: {
-      device: 'Nikon D850', focalLength: '14mm', aperture: 'f/2.8',
-      iso: 'ISO 3200', shutterSpeed: '25s', lensType: '超广角', lensId: '',
-      movement: '固定镜头', shotType: '远景',
-      composition: '对角线', lighting: '蓝调时段', cameraAngle: '仰拍 45°', colorTone: '冷调蓝银',
-    },
-  },
-  // ── 产品静物 ──────────────────────────────────────
-  {
-    id: 'product-white',
-    name: '白底棚拍',
-    params: {
-      device: 'Canon EOS R5', focalLength: '90mm', aperture: 'f/8',
+      device: 'Canon EOS R5', focalLength: '105mm 微距', aperture: 'f/5.6',
       iso: 'ISO 100', shutterSpeed: '1/125s', lensType: '微距镜头', lensId: '',
       movement: '固定镜头', shotType: '特写',
-      composition: '中心对称', lighting: '白背景棚拍', cameraAngle: '俯拍 15°', colorTone: '中性自然',
-    },
-  },
-  {
-    id: 'product-dark',
-    name: '暗调轮廓',
-    params: {
-      device: 'Sony A7R IV', focalLength: '105mm 微距', aperture: 'f/5.6',
-      iso: 'ISO 200', shutterSpeed: '1/60s', lensType: '微距镜头', lensId: '',
-      movement: '固定镜头', shotType: '近景',
-      composition: '对角线', lighting: '背光轮廓', cameraAngle: '平视', colorTone: '高对比黑白',
-    },
-  },
-  {
-    id: 'product-lifestyle',
-    name: '生活方式',
-    params: {
-      device: 'Fuji GFX 100S', focalLength: '50mm', aperture: 'f/4.0',
-      iso: 'ISO 400', shutterSpeed: '1/250s', lensType: '标准镜头', lensId: '',
-      movement: '固定镜头', shotType: '中景',
-      composition: '三分法', lighting: '自然光', cameraAngle: '俯拍 45°', colorTone: '低饱和莫兰迪',
-    },
-  },
-  {
-    id: 'product-macro',
-    name: '微距材质',
-    params: {
-      device: 'Olympus OM-1', focalLength: '105mm 微距', aperture: 'f/4.0',
-      iso: 'ISO 400', shutterSpeed: '1/200s', lensType: '微距镜头', lensId: '',
-      movement: '固定镜头', shotType: '大特写',
-      composition: '平铺俯拍', lighting: '柔光箱', cameraAngle: '俯拍 90°（顶视）', colorTone: '中性自然',
-    },
-  },
-  // ── 艺术创作 ──────────────────────────────────────
-  {
-    id: 'artistic-noir',
-    name: '黑色电影',
-    params: {
-      device: 'Leica SL2', focalLength: '35mm', aperture: 'f/2.0',
-      iso: 'ISO 1600', shutterSpeed: '1/60s', lensType: '标准镜头', lensId: '',
-      movement: '固定镜头', shotType: '中近景',
-      composition: '框架式', lighting: '戏剧性侧光', cameraAngle: '仰拍 15°', colorTone: '高对比黑白',
-    },
-  },
-  {
-    id: 'artistic-vibrant',
-    name: '霓虹赛博',
-    params: {
-      device: 'Sony A7S III', focalLength: '24mm', aperture: 'f/1.4',
-      iso: 'ISO 1600', shutterSpeed: '1/30s', lensType: '广角镜头', lensId: '',
-      movement: '手持', shotType: '中景',
-      composition: '引导线', lighting: '霓虹混合光', cameraAngle: '仰拍 15°', colorTone: '高饱和鲜艳',
-    },
-  },
-  {
-    id: 'artistic-dreamlike',
-    name: '梦境散焦',
-    params: {
-      device: 'Fuji X-T5', focalLength: '85mm', aperture: 'f/1.4',
-      iso: 'ISO 800', shutterSpeed: '1/125s', lensType: '人像定焦', lensId: '',
-      movement: '固定镜头', shotType: '近景',
-      composition: '负空间', lighting: '逆光剪影', cameraAngle: '平视', colorTone: '冷调蓝银',
-    },
-  },
-  {
-    id: 'artistic-minimal',
-    name: '极简留白',
-    params: {
-      device: 'Hasselblad 500CM', focalLength: '50mm', aperture: 'f/8',
-      iso: 'ISO 100', shutterSpeed: '1/250s', lensType: '标准镜头', lensId: '',
-      movement: '固定镜头', shotType: '远景',
-      composition: '负空间', lighting: '阴天漫射', cameraAngle: '平视', colorTone: '低饱和莫兰迪',
+      composition: '中心对称', lighting: '环形灯', cameraAngle: '平视', colorTone: '高饱和鲜艳',
     },
   },
 ];
 
 // ===================== 场景预设映射 =====================
-export function getPresetsByScene(sceneId: SceneType): CameraPreset[] {
-  const cfg = SCENE_CONFIGS.find(s => s.id === sceneId);
-  if (!cfg) return BUILT_IN_PRESETS.slice(0, 4);
-  return cfg.presetIds
-    .map(id => BUILT_IN_PRESETS.find(p => p.id === id))
-    .filter(Boolean) as CameraPreset[];
+export function getPresetsByScene(): CameraPreset[] {
+  return BUILT_IN_PRESETS;
 }
 
 export function getPresetById(id: string): CameraPreset | undefined {

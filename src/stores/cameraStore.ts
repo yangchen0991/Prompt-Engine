@@ -2,29 +2,25 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { CameraPreset, CameraParams } from '@/types/index';
 import { BUILT_IN_PRESETS, DEFAULT_CAMERA_PARAMS } from '@/lib/cameraPresets';
-import type { SceneType } from '@/lib/cameraPresets';
 
 interface CameraState {
   selectedPresetId: string;
   customPresets: CameraPreset[];
   currentParams: CameraParams;
-  sceneType: SceneType;
   selectPreset: (id: string) => void;
   updateParams: (params: Partial<CameraParams>) => void;
   saveCustomPreset: (name: string) => void;
   deleteCustomPreset: (id: string) => void;
   getAllPresets: () => CameraPreset[];
   resetToDefault: () => void;
-  setSceneType: (scene: SceneType) => void;
 }
 
 export const useCameraStore = create<CameraState>()(
   persist(
     (set, get) => ({
-      selectedPresetId: 'portrait-natural',
+      selectedPresetId: 'preset-cinematic',
       customPresets: [],
       currentParams: DEFAULT_CAMERA_PARAMS,
-      sceneType: 'portrait' as SceneType,
 
       getAllPresets: () => [...BUILT_IN_PRESETS, ...get().customPresets],
 
@@ -51,16 +47,12 @@ export const useCameraStore = create<CameraState>()(
       deleteCustomPreset: (id: string) => {
         set(s => ({
           customPresets: s.customPresets.filter(p => p.id !== id),
-          selectedPresetId: s.selectedPresetId === id ? 'portrait-natural' : s.selectedPresetId,
+          selectedPresetId: s.selectedPresetId === id ? 'preset-cinematic' : s.selectedPresetId,
         }));
       },
 
       resetToDefault: () => {
-        set({ selectedPresetId: 'portrait-natural', currentParams: { ...DEFAULT_CAMERA_PARAMS } });
-      },
-
-      setSceneType: (scene: SceneType) => {
-        set({ sceneType: scene });
+        set({ selectedPresetId: 'preset-cinematic', currentParams: { ...DEFAULT_CAMERA_PARAMS } });
       },
     }),
     {

@@ -6,11 +6,10 @@ import CameraDeviceSearch from './CameraDeviceSearch';
 import CameraLensSelector from './CameraLensSelector';
 import type { LensSpec } from '@/lib/cameraLenses';
 import {
-  SCENE_CONFIGS, FOCAL_LENGTHS, APERTURES, ISOS, SHUTTER_SPEEDS,
+  FOCAL_LENGTHS, APERTURES, ISOS, SHUTTER_SPEEDS,
   SHOT_TYPES, MOVEMENTS, COMPOSITIONS, LIGHTINGS, CAMERA_ANGLES, COLOR_TONES,
   getPresetsByScene, cameraToPromptText, DEFAULT_CAMERA_PARAMS,
 } from '@/lib/cameraPresets';
-import type { SceneType } from '@/lib/cameraPresets';
 import { Check, Save, Trash2, RotateCcw, ChevronDown, Copy, Camera } from 'lucide-react';
 
 // 焦距数值（用于滑块映射）
@@ -40,8 +39,8 @@ function getDepthOfFieldLabel(ap: string): { label: string; desc: string; cls: s
 export default function CameraPanel() {
   const {
     selectedPresetId, customPresets, currentParams,
-    sceneType, selectPreset, updateParams, saveCustomPreset,
-    deleteCustomPreset, setSceneType, resetToDefault,
+    selectPreset, updateParams, saveCustomPreset,
+    deleteCustomPreset, resetToDefault,
   } = useCameraStore();
 
   // autoSync：摄影机参数变化时自动更新注入文本
@@ -63,8 +62,7 @@ export default function CameraPanel() {
     composition: true, lighting: false, advanced: false,
   });
 
-  const sceneConfig = SCENE_CONFIGS.find(s => s.id === sceneType)!;
-  const scenePresets = getPresetsByScene(sceneType);
+  const scenePresets = getPresetsByScene();
   const promptText = useMemo(() => cameraToPromptText(currentParams), [currentParams]);
   const dof = getDepthOfFieldLabel(currentParams.aperture);
 
@@ -82,27 +80,6 @@ export default function CameraPanel() {
 
   return (
     <div className="flex flex-col text-[11px]">
-      {/* ── 场景类型 Tabs ────────────────────────────── */}
-      <div className="border-b border-border px-3 pt-3 pb-0">
-        <p className="mb-2 text-[10px] font-medium uppercase tracking-wider text-muted-foreground">拍摄场景</p>
-        <div className="grid grid-cols-2 gap-1 pb-3">
-          {SCENE_CONFIGS.map(s => (
-            <button
-              key={s.id}
-              onClick={() => setSceneType(s.id as SceneType)}
-              className={`flex flex-col items-start gap-0.5 rounded-sm border px-2.5 py-2 text-left transition-all active:scale-[0.98] ${
-                sceneType === s.id
-                  ? 'border-primary bg-primary/10 text-primary'
-                  : 'border-border bg-secondary/40 text-muted-foreground hover:border-border/80 hover:bg-accent'
-              }`}
-            >
-              <span className="font-medium text-[11px]">{s.label}</span>
-              <span className="text-[9px] opacity-70">{s.desc}</span>
-            </button>
-          ))}
-        </div>
-      </div>
-
       <div className="flex-1 space-y-0 divide-y divide-border">
         {/* ── 场景预设 ────────────────────────────────── */}
         <Section
@@ -160,9 +137,9 @@ export default function CameraPanel() {
           onToggle={() => toggleSection('focal')}
           badge={safeParams.focalLength}
         >
-          {/* 推荐焦距快捷按钮 */}
+          {/* 常用焦距快捷按钮 */}
           <div className="mb-2 flex flex-wrap gap-1">
-            {sceneConfig.recommendedFocalLengths.map(f => (
+            {['14mm', '24mm', '35mm', '50mm', '85mm'].map(f => (
               <button
                 key={f}
                 onClick={() => updateParams({ focalLength: f })}
@@ -175,7 +152,7 @@ export default function CameraPanel() {
                 {f}
               </button>
             ))}
-            <span className="self-center text-[9px] text-muted-foreground/50">推荐</span>
+            <span className="self-center text-[9px] text-muted-foreground/50">常用</span>
           </div>
 
           {/* 滑块 */}
@@ -212,9 +189,9 @@ export default function CameraPanel() {
           onToggle={() => toggleSection('aperture')}
           badge={safeParams.aperture}
         >
-          {/* 推荐光圈 */}
+          {/* 常用光圈 */}
           <div className="mb-2 flex flex-wrap gap-1">
-            {sceneConfig.recommendedApertures.map(a => (
+            {['f/1.4', 'f/2.8', 'f/5.6', 'f/8'].map(a => (
               <button
                 key={a}
                 onClick={() => updateParams({ aperture: a })}
@@ -227,7 +204,7 @@ export default function CameraPanel() {
                 {a}
               </button>
             ))}
-            <span className="self-center text-[9px] text-muted-foreground/50">推荐</span>
+            <span className="self-center text-[9px] text-muted-foreground/50">常用</span>
           </div>
 
           {/* 光圈滑块 */}
@@ -283,9 +260,9 @@ export default function CameraPanel() {
           onToggle={() => toggleSection('composition')}
           badge={safeParams.composition}
         >
-          {/* 推荐构图 */}
+          {/* 常用构图 */}
           <div className="mb-1.5 flex flex-wrap gap-1">
-            {sceneConfig.recommendedCompositions.map(c => (
+            {['三分法', '中心对称', '对角线', '引导线'].map(c => (
               <button
                 key={c}
                 onClick={() => updateParams({ composition: c })}
@@ -325,9 +302,9 @@ export default function CameraPanel() {
           onToggle={() => toggleSection('lighting')}
           badge={safeParams.lighting}
         >
-          {/* 推荐光照 */}
+          {/* 常用光照 */}
           <div className="mb-1.5 flex flex-wrap gap-1">
-            {sceneConfig.recommendedLightings.map(l => (
+            {['自然光', '黄金时段', '蓝调时段', '正午阳光'].map(l => (
               <button
                 key={l}
                 onClick={() => updateParams({ lighting: l })}
