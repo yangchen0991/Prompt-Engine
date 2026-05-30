@@ -276,11 +276,13 @@ pnpm exec vite --config vite.config.dev.ts --host 127.0.0.1
 
 ## 📝 项目状态
 
-项目基于**秒哒 (Miaoda)** 低代码平台生成初始框架，已进行大量定制化开发。当前处于活跃开发阶段。
+项目基于**秒哒 (Miaoda)** 低代码平台生成初始框架，深度依托**腾讯 WorkBuddy** 作为主要 AI 辅助开发平台进行大量定制化开发。当前处于活跃开发阶段。
 
 ## 📄 许可证
 
-MIT License
+本项目遵循 **[GNU Affero 通用公共许可证 v3.0 (AGPLv3)](https://www.gnu.org/licenses/agpl-3.0.html)**。
+
+> 核心要求：如果您修改了本项目的代码并通过网络提供服务（包括 SaaS），您必须公开您修改后的完整源代码。详情请参阅 [LICENSE](./LICENSE) 文件。
 
 ---
 
