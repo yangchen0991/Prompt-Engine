@@ -75,8 +75,8 @@ export default function SettingsModal() {
                 </div>
                 <p className="mt-1.5 text-[11px] text-muted-foreground">
                   在{' '}
-                  <a href="https://tokendance.com" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                    tokendance.com
+                  <a href="https://tokendance.space/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                    tokendance.space
                   </a>
                   {' '}获取 API Key
                 </p>
