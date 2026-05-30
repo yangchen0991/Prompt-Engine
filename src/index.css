@@ -1,0 +1,262 @@
+/* stylelint-disable */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 绘词引擎 V2 设计令牌系统 — 工具理性风 Dark Mode */
+
+@layer base {
+  :root {
+    /* 基础圆角 */
+    --radius: 0.125rem;
+
+    /* 画布和表面 */
+    --background: 0 0% 7%;
+    --foreground: 210 20% 92%;
+    --card: 0 0% 12%;
+    --card-foreground: 210 20% 92%;
+    --popover: 0 0% 12%;
+    --popover-foreground: 210 20% 92%;
+
+    /* 主色：电光蓝 */
+    --primary: 217 100% 50%;
+    --primary-foreground: 0 0% 100%;
+
+    /* 辅助色 */
+    --secondary: 0 0% 17%;
+    --secondary-foreground: 210 20% 80%;
+
+    /* 静默色 */
+    --muted: 0 0% 15%;
+    --muted-foreground: 215 12% 52%;
+
+    /* 强调色（低饱和） */
+    --accent: 0 0% 20%;
+    --accent-foreground: 210 20% 90%;
+
+    /* 危险 */
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* 边框和输入 */
+    --border: 0 0% 20%;
+    --input: 0 0% 17%;
+    --ring: 217 100% 50%;
+
+    /* 图表色 */
+    --chart-1: 217 100% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+
+    /* 侧边栏 */
+    --sidebar-background: 0 0% 9%;
+    --sidebar-foreground: 210 15% 80%;
+    --sidebar-primary: 217 100% 50%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 0 0% 15%;
+    --sidebar-accent-foreground: 210 15% 90%;
+    --sidebar-border: 0 0% 18%;
+    --sidebar-ring: 217 100% 50%;
+
+    /* 节点分类色（HSL） */
+    --node-text: 217 91% 60%;
+    --node-image: 271 81% 65%;
+    --node-video: 186 94% 42%;
+    --node-input: 215 16% 47%;
+    --node-cid: 38 92% 50%;
+
+    /* 画布专用 */
+    --canvas-bg: 0 0% 5%;
+    --canvas-dot: 0 0% 18%;
+
+    /* 状态色 */
+    --status-success: 142 71% 45%;
+    --status-error: 0 72% 51%;
+    --status-warning: 38 92% 50%;
+    --status-info: 217 91% 60%;
+  }
+
+  .dark {
+    --background: 0 0% 7%;
+    --foreground: 210 20% 92%;
+    --card: 0 0% 12%;
+    --card-foreground: 210 20% 92%;
+    --popover: 0 0% 12%;
+    --popover-foreground: 210 20% 92%;
+    --primary: 217 100% 50%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 17%;
+    --secondary-foreground: 210 20% 80%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 215 12% 52%;
+    --accent: 0 0% 20%;
+    --accent-foreground: 210 20% 90%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 20%;
+    --input: 0 0% 17%;
+    --ring: 217 100% 50%;
+    --chart-1: 217 100% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+    --sidebar-background: 0 0% 9%;
+    --sidebar-foreground: 210 15% 80%;
+    --sidebar-primary: 217 100% 50%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 0 0% 15%;
+    --sidebar-accent-foreground: 210 15% 90%;
+    --sidebar-border: 0 0% 18%;
+    --sidebar-ring: 217 100% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  /* 滚动条样式 */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--border)) transparent;
+  }
+  *::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+    background: transparent;
+  }
+  *::-webkit-scrollbar-thumb {
+    background: hsl(var(--border));
+    border-radius: 2px;
+  }
+}
+
+@layer components {
+  /* CameraPanel 共用输入样式 */
+  .param-input {
+    @apply flex-1 min-w-0 rounded-sm border border-input bg-input/50 px-1.5 py-0.5 text-[11px] text-foreground focus:border-primary focus:outline-none;
+  }
+  .param-select {
+    @apply flex-1 min-w-0 rounded-sm border border-input bg-input/50 px-1.5 py-0.5 text-[11px] text-foreground focus:border-primary focus:outline-none;
+  }
+
+  /* CameraPanel 滑块样式 */
+  .camera-slider {
+    @apply h-1.5 w-full cursor-pointer appearance-none rounded-full bg-border accent-[hsl(var(--primary))];
+  }
+  .camera-slider::-webkit-slider-thumb {
+    @apply h-3.5 w-3.5 appearance-none rounded-full border border-primary bg-primary cursor-pointer;
+    box-shadow: 0 0 0 2px hsl(var(--card));
+  }
+  .camera-slider::-moz-range-thumb {
+    @apply h-3.5 w-3.5 rounded-full border border-primary bg-primary cursor-pointer;
+    box-shadow: 0 0 0 2px hsl(var(--card));
+  }
+  .camera-slider::-webkit-slider-runnable-track {
+    @apply rounded-full;
+    background: linear-gradient(
+      to right,
+      hsl(var(--primary)) 0%,
+      hsl(var(--primary)) var(--pct, 0%),
+      hsl(var(--border)) var(--pct, 0%)
+    );
+  }
+}
+
+@layer utilities {
+  /* 节点状态动画 */
+  @keyframes node-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+
+  .node-running {
+    animation: node-pulse 2s ease-in-out infinite;
+  }
+
+  /* 节点分类边框指示条颜色 */
+  .node-accent-text { --node-accent: hsl(var(--node-text)); }
+  .node-accent-image { --node-accent: hsl(var(--node-image)); }
+  .node-accent-video { --node-accent: hsl(var(--node-video)); }
+  .node-accent-input { --node-accent: hsl(var(--node-input)); }
+  .node-accent-cid { --node-accent: hsl(var(--node-cid)); }
+
+  /* ReactFlow 画布覆盖 */
+  .react-flow__background {
+    background-color: hsl(var(--canvas-bg)) !important;
+  }
+
+  .react-flow__edge-path {
+    stroke: hsl(var(--border)) !important;
+    stroke-width: 1.5px !important;
+  }
+
+  .react-flow__edge.selected .react-flow__edge-path,
+  .react-flow__edge:hover .react-flow__edge-path {
+    stroke: hsl(var(--primary)) !important;
+  }
+
+  .react-flow__connection-path {
+    stroke: hsl(var(--primary)) !important;
+    stroke-width: 1.5px !important;
+  }
+
+  .react-flow__handle {
+    width: 8px !important;
+    height: 8px !important;
+    border-radius: 2px !important;
+    border: 1.5px solid hsl(var(--border)) !important;
+    background: hsl(var(--card)) !important;
+  }
+
+  .react-flow__handle:hover,
+  .react-flow__handle.connecting {
+    border-color: hsl(var(--primary)) !important;
+    background: hsl(var(--primary)) !important;
+  }
+
+  .react-flow__controls {
+    background: hsl(var(--card)) !important;
+    border: 1px solid hsl(var(--border)) !important;
+    border-radius: 4px !important;
+    box-shadow: none !important;
+  }
+
+  .react-flow__controls-button {
+    background: transparent !important;
+    border: none !important;
+    border-bottom: 1px solid hsl(var(--border)) !important;
+    color: hsl(var(--foreground)) !important;
+  }
+
+  .react-flow__controls-button:last-child {
+    border-bottom: none !important;
+  }
+
+  .react-flow__minimap {
+    background: hsl(var(--card)) !important;
+    border: 1px solid hsl(var(--border)) !important;
+    border-radius: 4px !important;
+  }
+
+  /* 渐变文字 */
+  .gradient-text {
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--node-image)));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
