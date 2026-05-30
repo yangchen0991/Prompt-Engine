@@ -89,6 +89,36 @@ AI 输出：「TextNode(创世架构师) → CIDBoardNode → GenImageNode(定�
 
 ---
 
+## 📸 界面预览
+
+### 画布主界面
+
+![画布主界面](public/screenshots/canvas-main.png)
+
+*ReactFlow 节点式编辑画布 — 文本节点、图像/视频生成节点、角色控制板自由组合*
+
+### 摄影机参数面板
+
+| 场景预设 | 高级参数 |
+|----------|----------|
+| ![摄影机预设](public/screenshots/camera-panel.png) | ![高级参数](public/screenshots/camera-advanced.png) |
+
+*左：内置场景预设与镜头选型 · 右：景别、运镜、机位等高级参数精细配置*
+
+### 分镜系统
+
+![分镜系统](public/screenshots/storyboard.png)
+
+*多镜头批量管理，全局一致性锁定保持视觉风格统一*
+
+### 素材库
+
+![素材库](public/screenshots/asset-library.png)
+
+*生成结果集中管理，支持筛选、预览与复用*
+
+---
+
 ## 🏗️ 技术架构
 
 ```
